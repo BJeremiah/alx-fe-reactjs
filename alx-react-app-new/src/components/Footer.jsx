@@ -1,13 +1,7 @@
 function Footer() {
   return (
-    <footer style={{ 
-      backgroundColor: '#222', 
-      color: 'white', 
-      textAlign: 'center', 
-      padding: '15px', 
-      marginTop: '20px' 
-    }}>
-      <p>&copy; 2025 My Favorite Cities. All rights reserved.</p>
+    <footer style={{ border: '1px solid gray', padding: '10px', margin: '10px' }}>
+      <p>© 2025 My Favorite Cities</p>
     </footer>
   );
 }
