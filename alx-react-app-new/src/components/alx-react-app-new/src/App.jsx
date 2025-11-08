@@ -1,7 +1,6 @@
-import counter from './components/Counter';
+import UserProfile from './components/UserProfile';
 import Header from './components/Header';
 import MainContent from './components/MainContent';
-import UserProfile from './components/UserProfile';
 import Footer from './components/Footer';
 
 function App() {
@@ -12,12 +11,12 @@ function App() {
       <UserProfile 
         name="Alice"
         age="25"
-        bio="Loves hiking and photography." 
+        bio="Loves hiking and photography."
       />
-      <Counter />
       <Footer />
     </div>
-  
   );
 }
+
 export default App;
+import UserProfile
