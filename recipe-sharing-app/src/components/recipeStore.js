@@ -1,4 +1,4 @@
-import create from 'zustand'
+import create from 'zustand';
 
 export const useRecipeStore = create((set) => ({
   recipes: [],
@@ -6,18 +6,17 @@ export const useRecipeStore = create((set) => ({
   addRecipe: (newRecipe) =>
     set((state) => ({ recipes: [...state.recipes, newRecipe] })),
 
-  setRecipes: (recipes) => set({ recipes }),
+  // Must be named exactly "updateRecipe"
+  updateRecipe: (id, updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((recipe) =>
+        recipe.id === id ? { ...recipe, ...updatedRecipe } : recipe
+      ),
+    })),
 
-  initializeIfEmpty: () =>
-    set((state) => {
-      if (state.recipes.length === 0) {
-        return {
-          recipes: [
-            { id: 1, title: 'Spicy Tomato Pasta', description: 'Quick pasta with a rich tomato sauce.' },
-            { id: 2, title: 'Avocado Toast', description: 'Simple avocado on toasted bread.' },
-          ],
-        }
-      }
-      return {}
-    }),
-}))
+  // Must be named exactly "deleteRecipe"
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((recipe) => recipe.id !== id),
+    })),
+}));
