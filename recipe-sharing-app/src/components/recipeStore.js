@@ -1,22 +1,56 @@
 import create from 'zustand';
 
-export const useRecipeStore = create((set) => ({
+const useRecipeStore = create((set, get) => ({
   recipes: [],
+  
+  // --- Search and filtering ---
+  searchTerm: '',
+  filteredRecipes: [],
+
+  setRecipes: (recipes) => set({ recipes, filteredRecipes: recipes }),
 
   addRecipe: (newRecipe) =>
-    set((state) => ({ recipes: [...state.recipes, newRecipe] })),
+    set((state) => {
+      const updatedRecipes = [...state.recipes, newRecipe];
+      return { 
+        recipes: updatedRecipes, 
+        filteredRecipes: updatedRecipes.filter(r =>
+          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        )
+      };
+    }),
 
-  // Must be named exactly "updateRecipe"
-  updateRecipe: (id, updatedRecipe) =>
-    set((state) => ({
-      recipes: state.recipes.map((recipe) =>
-        recipe.id === id ? { ...recipe, ...updatedRecipe } : recipe
-      ),
-    })),
+  setSearchTerm: (term) =>
+    set((state) => {
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return { searchTerm: term, filteredRecipes: filtered };
+    }),
 
-  // Must be named exactly "deleteRecipe"
+  updateRecipe: (id, updatedData) =>
+    set((state) => {
+      const updatedRecipes = state.recipes.map((r) =>
+        r.id === id ? { ...r, ...updatedData } : r
+      );
+      return {
+        recipes: updatedRecipes,
+        filteredRecipes: updatedRecipes.filter((r) =>
+          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        ),
+      };
+    }),
+
   deleteRecipe: (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((recipe) => recipe.id !== id),
-    })),
+    set((state) => {
+      const updatedRecipes = state.recipes.filter((r) => r.id !== id);
+      return {
+        recipes: updatedRecipes,
+        filteredRecipes: updatedRecipes.filter((r) =>
+          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        ),
+      };
+    }),
 }));
+
+export { useRecipeStore };
