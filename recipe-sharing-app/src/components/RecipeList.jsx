@@ -1,8 +1,8 @@
 import React from 'react';
 import { useRecipeStore } from './recipeStore';
+import { Link } from 'react-router-dom'; // <-- import Link
 
 const RecipeList = () => {
-  // Use filteredRecipes instead of recipes
   const recipes = useRecipeStore((state) => state.filteredRecipes);
 
   if (recipes.length === 0) {
@@ -13,7 +13,10 @@ const RecipeList = () => {
     <div>
       {recipes.map((recipe) => (
         <div key={recipe.id} style={{ border: '1px solid #ccc', padding: '8px', marginBottom: '8px' }}>
-          <h3>{recipe.title}</h3>
+          {/* Wrap title in a Link to details page */}
+          <Link to={`/recipe/${recipe.id}`} style={{ textDecoration: 'none', color: 'blue' }}>
+            <h3>{recipe.title}</h3>
+          </Link>
           <p>{recipe.description}</p>
         </div>
       ))}
