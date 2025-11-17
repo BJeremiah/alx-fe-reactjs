@@ -1,24 +1,28 @@
-import React, { useEffect } from 'react'
-import RecipeList from './components/RecipeList'
-import AddRecipeForm from './components/AddRecipeForm'
-import { useRecipeStore } from './stores/recipeStore'
-import './index.css'
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import RecipeList from "./components/RecipeList";
+import AddRecipeForm from "./components/AddRecipeForm";
+import RecipeDetails from "./components/RecipeDetails";
 
 function App() {
-  const initializeIfEmpty = useRecipeStore((state) => state.initializeIfEmpty)
-
-  // initialize demo recipes on mount
-  useEffect(() => {
-    initializeIfEmpty()
-  }, [initializeIfEmpty])
-
   return (
-    <div className="app-container">
-      <h1>Recipe Sharing App</h1>
-      <AddRecipeForm />
-      <RecipeList />
-    </div>
-  )
+    <Router>
+      <div>
+        <h1>Recipe Sharing App</h1>
+        <AddRecipeForm />
+        <Routes>
+          <Route path="/" element={<RecipeList />} />
+          <Route path="/recipe/:id" element={<RecipeDetailsWrapper />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+import { useParams } from "react-router-dom";
+const RecipeDetailsWrapper = () => {
+  const { id } = useParams();
+  return <RecipeDetails recipeId={parseInt(id)} />;
+};
+
+export default App;
