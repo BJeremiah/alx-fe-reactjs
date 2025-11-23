@@ -24,3 +24,26 @@ function App() {
 }
 
 export default App;
+import React from 'react';
+import RecipeList from './components/RecipeList';
+import FavoritesList from './components/FavoritesList';
+import RecommendationsList from './components/RecommendationsList';
+import useRecipeStore from './store/recipeStore';
+
+function App() {
+  const generateRecommendations = useRecipeStore(state => state.generateRecommendations);
+
+  return (
+    <div>
+      <h1>Recipe Sharing App</h1>
+
+      <button onClick={generateRecommendations}>Generate Recommendations</button>
+
+      <RecipeList />
+      <FavoritesList />
+      <RecommendationsList />
+    </div>
+  );
+}
+
+export default App;
