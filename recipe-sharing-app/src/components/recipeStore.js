@@ -1,56 +1,33 @@
+// src/components/recipeStore.js
 import create from 'zustand';
 
-const useRecipeStore = create((set, get) => ({
+export const useRecipeStore = create((set, get) => ({
+  // Existing recipes
   recipes: [],
-  
-  // --- Search and filtering ---
-  searchTerm: '',
-  filteredRecipes: [],
-
-  setRecipes: (recipes) => set({ recipes, filteredRecipes: recipes }),
-
-  addRecipe: (newRecipe) =>
-    set((state) => {
-      const updatedRecipes = [...state.recipes, newRecipe];
-      return { 
-        recipes: updatedRecipes, 
-        filteredRecipes: updatedRecipes.filter(r =>
-          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        )
-      };
-    }),
-
-  setSearchTerm: (term) =>
-    set((state) => {
-      const filtered = state.recipes.filter((recipe) =>
-        recipe.title.toLowerCase().includes(term.toLowerCase())
-      );
-      return { searchTerm: term, filteredRecipes: filtered };
-    }),
-
-  updateRecipe: (id, updatedData) =>
-    set((state) => {
-      const updatedRecipes = state.recipes.map((r) =>
-        r.id === id ? { ...r, ...updatedData } : r
-      );
-      return {
-        recipes: updatedRecipes,
-        filteredRecipes: updatedRecipes.filter((r) =>
-          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
-      };
-    }),
-
+  addRecipe: (newRecipe) => set((state) => ({ recipes: [...state.recipes, newRecipe] })),
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((r) => (r.id === updatedRecipe.id ? updatedRecipe : r)),
+    })),
   deleteRecipe: (id) =>
-    set((state) => {
-      const updatedRecipes = state.recipes.filter((r) => r.id !== id);
-      return {
-        recipes: updatedRecipes,
-        filteredRecipes: updatedRecipes.filter((r) =>
-          r.title.toLowerCase().includes(state.searchTerm.toLowerCase())
-        ),
-      };
-    }),
-}));
+    set((state) => ({
+      recipes: state.recipes.filter((r) => r.id !== id),
+    })),
 
-export { useRecipeStore };
+  // --- Task 3: Favorites & Recommendations ---
+  favorites: [],
+  addFavorite: (recipeId) =>
+    set((state) => ({ favorites: [...state.favorites, recipeId] })),
+  removeFavorite: (recipeId) =>
+    set((state) => ({ favorites: state.favorites.filter((id) => id !== recipeId) })),
+
+  recommendations: [],
+  generateRecommendations: () => {
+    const state = get();
+    // Mock: recommend recipes that are not yet in favorites
+    const recommended = state.recipes.filter(
+      (recipe) => !state.favorites.includes(recipe.id)
+    );
+    set({ recommendations: recommended });
+  },
+}));
