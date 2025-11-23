@@ -40,3 +40,26 @@ const RecipeCard = ({ recipe }) => {
 };
 
 export default RecipeCard;
+import { useRecipeStore } from '../store/recipeStore';
+
+const RecipeCard = ({ recipe }) => {
+  const { favorites, addFavorite, removeFavorite } = useRecipeStore();
+  const isFavorite = favorites.includes(recipe.id);
+
+  return (
+    <div className="recipe-card">
+      <h3>{recipe.title}</h3>
+      <p>{recipe.description}</p>
+
+      <button
+        onClick={() =>
+          isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe.id)
+        }
+      >
+        {isFavorite ? "Remove Favorite" : "Add to Favorite"}
+      </button>
+    </div>
+  );
+};
+
+export default RecipeCard;
