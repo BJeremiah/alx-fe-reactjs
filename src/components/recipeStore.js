@@ -1,23 +1,61 @@
-import create from 'zustand'
+import { create } from 'zustand';
 
-export const useRecipeStore = create((set) => ({
+const useRecipeStore = create((set) => ({
   recipes: [],
 
+  // 🔍 Search
+  searchTerm: '',
+  setSearchTerm: (term) => set({ searchTerm: term }),
+  filteredRecipes: [],
+  filterRecipes: () =>
+    set((state) => ({
+      filteredRecipes: state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+      ),
+    })),
+
+  // ➕ Add Recipe
   addRecipe: (newRecipe) =>
-    set((state) => ({ recipes: [...state.recipes, newRecipe] })),
+    set((state) => ({
+      recipes: [...state.recipes, newRecipe]
+    })),
 
-  setRecipes: (recipes) => set({ recipes }),
+  // ✏️ Update Recipe
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      )
+    })),
 
-  initializeIfEmpty: () =>
+  // 🗑 Delete Recipe
+  deleteRecipe: (id) =>
+    set((state) => ({
+      recipes: state.recipes.filter((recipe) => recipe.id !== id)
+    })),
+
+  // ⭐ Favorites
+  favorites: [],
+  addFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: [...state.favorites, recipeId]
+    })),
+
+  removeFavorite: (recipeId) =>
+    set((state) => ({
+      favorites: state.favorites.filter((id) => id !== recipeId)
+    })),
+
+  // 🤖 Personalized Recommendations
+  recommendations: [],
+  generateRecommendations: () =>
     set((state) => {
-      if (state.recipes.length === 0) {
-        return {
-          recipes: [
-            { id: 1, title: 'Spicy Tomato Pasta', description: 'Quick pasta with a rich tomato sauce.' },
-            { id: 2, title: 'Avocado Toast', description: 'Simple avocado on toasted bread.' },
-          ],
-        }
-      }
-      return {}
-    }),
-}))
+      const recommended = state.recipes.filter(
+        (recipe) =>
+          state.favorites.includes(recipe.id) && Math.random() > 0.5
+      );
+      return { recommendations: recommended };
+    })
+}));
+
+export default useRecipeStore;
