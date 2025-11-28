@@ -28,3 +28,8 @@ export async function getUser(username) {
   const response = await axiosInstance.get(`/users/${username}`);
   return response.data;
 }
+// fetch single user by username
+export async function fetchUserData(username) {
+  const response = await axiosInstance.get(`/users/${username}`);
+  return response.data;
+}
