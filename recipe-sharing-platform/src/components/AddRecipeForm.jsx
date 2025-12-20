@@ -40,7 +40,7 @@ const AddRecipeForm = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+    <div className="max-w-3xl mx-auto p-6 md:p-8 bg-white shadow-lg rounded-lg mt-8">
       <h2 className="text-2xl font-bold mb-6 text-center">Add New Recipe</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -49,7 +49,7 @@ const AddRecipeForm = () => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded px-3 py-2 md:px-4 md:py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
         </div>
@@ -59,7 +59,7 @@ const AddRecipeForm = () => {
           <textarea
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded px-3 py-2 md:px-4 md:py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           {errors.ingredients && (
             <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
@@ -71,14 +71,14 @@ const AddRecipeForm = () => {
           <textarea
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full border border-gray-300 rounded px-3 py-2 md:px-4 md:py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
           {errors.steps && <p className="text-red-500 text-sm mt-1">{errors.steps}</p>}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded hover:bg-indigo-700 transition-colors"
+          className="w-full bg-indigo-600 text-white font-semibold py-2 px-4 md:py-3 md:px-6 rounded hover:bg-indigo-700 transition-colors"
         >
           Submit Recipe
         </button>
