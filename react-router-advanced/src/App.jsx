@@ -30,13 +30,13 @@ function App() {
 
         {/* Protected Route */}
         <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              <Profile />
-            </ProtectedRoute>
-          }
-        >
+  path="/profile/*"
+  element={
+    <ProtectedRoute isAuthenticated={isAuthenticated}>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
           {/* Nested Routes */}
           <Route path="details" element={<ProfileDetails />} />
           <Route path="settings" element={<ProfileSettings />} />
